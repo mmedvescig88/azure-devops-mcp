@@ -52,6 +52,10 @@ const domainsManager = new DomainsManager(argv.domains);
 export const enabledDomains = domainsManager.getEnabledDomains();
 
 async function getAzureDevOpsToken(): Promise<AccessToken> {
+  if (process.env.ADO_MCP_PERSONAL_ACCESS_TOKEN) {
+    return { token:process.env.ADO_MCP_PERSONAL_ACCESS_TOKEN, expiresOnTimestamp: Date.now() + 3600 * 1000 };
+  }
+
   if (process.env.ADO_MCP_AZURE_TOKEN_CREDENTIALS) {
     process.env.AZURE_TOKEN_CREDENTIALS = process.env.ADO_MCP_AZURE_TOKEN_CREDENTIALS;
   } else {
